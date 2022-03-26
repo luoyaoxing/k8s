@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness-command
+  name: liveness-command
+spec:
+  containers:
+    - name: liveness-command
+      image: busybox
+      imagePullPolicy: IfNotPresent
+      args:
+        - /bin/sh
+        - -c
+        - echo ok > /tmp/health.txt; sleep 10; rm -f /tmp/health.txt; sleep 600
+      livenessProbe:
+        exec:
+          command:
+            - cat
+            - /tmp/health.txt
+        initialDelaySeconds: 15
+        timeoutSeconds: 1
