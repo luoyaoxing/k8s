@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-node-affinity
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                  - amd64
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 1
+          preference:
+            matchExpressions:
+              - key: disk-type
+                operator: In
+                values:
+                  - ssd
+  containers:
+    - name: test-node-affinity
+      image: busybox
+      command: ["/bin/sh", "-c", "env | grep APP"]
+      env:
+        - name: APPLOGLEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: cm-appvars
+              key: apploglevel
+        - name: APPDATADIR
+          valueFrom:
+            configMapKeyRef:
+              name: cm-appvars
+              key: appdatadir
+  restartPolicy: Never

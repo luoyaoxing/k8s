@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: redis-master
+  name: redis-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-master
+  template:
+    metadata:
+      labels:
+        app: redis-master
+    spec:
+      containers:
+        - name: redis-master
+          image: kubeguide/redis-master
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6379
+      nodeSelector:
+        zone: north
