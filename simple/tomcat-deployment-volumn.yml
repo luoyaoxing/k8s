@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: myweb-volume
+  name: myweb-volume
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myweb-volume
+  template:
+    metadata:
+      labels:
+        app: myweb-volume
+    spec:
+      volumes:
+        - name: datavol
+          emptyDir: {}
+      containers:
+        - image: kubeguide/tomcat-app:v1
+          name: myweb
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MYSQL_SERVICE_HOST
+              value: 10.103.107.254
+          volumeMounts:
+            - mountPath: /mydata-data
+              name: datavol

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: myweb-hostpath-volume
+  name: myweb-hostpath-volume
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myweb-hostpath-volume
+  template:
+    metadata:
+      labels:
+        app: myweb-hostpath-volume
+    spec:
+      volumes:
+        - name: persistent-storage
+          hostPath:
+            path: "/data/storage"
+      containers:
+        - image: kubeguide/tomcat-app:v1
+          name: myweb
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MYSQL_SERVICE_HOST
+              value: 10.103.107.254
+          volumeMounts:
+            - mountPath: /mydata-data
+              name: persistent-storage

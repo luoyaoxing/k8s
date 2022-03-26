@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: bosybox-pod
+  name: bosybox-pod-name
+  namespace: kay
+spec:
+    containers:
+      - image: busybox
+        name: busybox
+        command:
+          - sleep
+          - "3600"

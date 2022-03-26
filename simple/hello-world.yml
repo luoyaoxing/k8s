@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: myweb
+  name: myweb
+spec:
+  selector:
+    matchLabels:
+      name: myweb
+  template:
+    metadata:
+      labels:
+        name: myweb
+      name: myweb
+    spec:
+      containers:
+        - image: kubeguide/tomcat-app:v1
+          name: myweb
+          ports:
+            - containerPort: 8080

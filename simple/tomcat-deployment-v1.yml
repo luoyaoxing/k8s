@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: tomcat-frontend
+  name: tomcat-frontend
+spec:
+  replicas: 1
+  selector:
+    matchExpressions:
+      - {key: tier, operator: In, values: [frontend]}
+  template:
+    metadata:
+      labels:
+        tier: frontend
+        name: tomcat-app
+    spec:
+      containers:
+        - image: tomcat
+          imagePullPolicy: IfNotPresent
+          name: tomcat-app
+          ports:
+            - containerPort: 8080
