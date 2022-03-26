@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cm-test-pod-volume
+spec:
+  containers:
+    - name: cm-test-pod-volume
+      image: tomcat
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 8080
+      volumeMounts:
+        - name: serverxml
+          mountPath: /config
+  volumes:
+    - name: serverxml
+      configMap:
+        name: cm-server.yml
+        items:
+          - key: cm-server.yml
+            path: cm-server-test.yml
+  restartPolicy: Never
