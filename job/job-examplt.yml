@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    jobgroup: job-example
+  name: process-item-$ITEM
+spec:
+  template:
+    metadata:
+      labels:
+        jobgroup: job-example
+        name: job-example
+    spec:
+      containers:
+        - name: job
+          image: busybox
+          imagePullPolicy: IfNotPresent
+          command: ["sh", "-c", "echo process item $ITEM && sleep 5"]
+      restartPolicy: Never
